@@ -6,8 +6,17 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(("localhost", PORT))
 
 while True:
-    msg = input("Message: ")
-    client.send(msg.encode())
+    name = input("Type client name: ")
+    client.send(name.encode())
+    response = client.recv(1024)
 
-    data = client.recv(1024)
-    print(f"Server: {data.decode()}")
+    if response.decode() == "ERROR":
+        print(f"Server: {name} already exists, type other")
+    elif response.decode() == "ACCEPT":
+        print("Connection accepted")
+        break
+    else:
+        print("Unknown error occurred")
+        break
+
+client.close()
