@@ -1,4 +1,5 @@
 import socket
+import threading
 
 
 clients = []
@@ -13,8 +14,19 @@ def handle_client(conn: socket.socket):
         else:
             print(f"Client {client_name} accepted")
             conn.send("ACCEPT".encode())
-            clients.append(client_name)
-            # start client thread
+            clients.append([client_name, conn])
+            break
+    
+    # communication
+    while True:
+        msg = conn.recv(1024).decode()
+
+        if msg == "STOP":
+            for i in range(len(clients)):
+                if clients[i][0] == client_name:
+                    clients.pop(i)
+            
+            print(f"{client_name}: disconnected")
             break
 
 
@@ -24,12 +36,15 @@ server.bind(("localhost", PORT))
 server.listen()
 print("Server running")
 
-while True:
-    conn, addr = server.accept()
-    print(f"Connected with: {addr}")
-    handle_client(conn)
-    
-    break
-
-conn.close()
-server.close()
+try:
+    while True:
+        conn, addr = server.accept()
+        print(f"Connected with: {addr}")
+        thread = threading.Thread(target=handle_client, args=(conn,))
+        thread.start()
+        thread.join()
+except KeyboardInterrupt:
+    print("Server closed")
+finally:
+    conn.close()
+    server.close()
