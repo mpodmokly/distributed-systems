@@ -2,7 +2,8 @@ import socket
 import threading
 
 
-clients = []
+clients = [] # [name, conn]
+stop = False
 
 def handle_client(conn: socket.socket):
     while True:
@@ -17,9 +18,11 @@ def handle_client(conn: socket.socket):
             clients.append([client_name, conn])
             break
     
-    # communication
     while True:
         msg = conn.recv(1024).decode()
+
+        if stop:
+            break
 
         if msg == "STOP":
             for i in range(len(clients)):
@@ -28,6 +31,10 @@ def handle_client(conn: socket.socket):
             
             print(f"{client_name}: disconnected")
             break
+        else:
+            for cli in clients:
+                if cli[0] != client_name:
+                    cli[1].send(f"{client_name}: {msg}".encode())
 
 
 PORT = 9000
@@ -46,5 +53,6 @@ try:
 except KeyboardInterrupt:
     print("Server closed")
 finally:
+    stop = True
     conn.close()
     server.close()
