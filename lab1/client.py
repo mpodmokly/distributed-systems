@@ -2,8 +2,19 @@ import socket
 import threading
 
 
-def handle_message():
-    server_msg = ""
+stop = False
+
+def handle_message(client: socket.socket):
+    try:
+        while True:
+            server_msg = client.recv(1024).decode()
+
+            if stop:
+                break
+            print(server_msg)
+    except (ConnectionAbortedError, OSError, ConnectionResetError):
+        pass
+
 
 PORT = 9000
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -23,18 +34,20 @@ while True:
         print("Unknown error occurred")
         break
 
-# handle message
+thread = threading.Thread(target=handle_message, args=(client,))
+thread.start()
 
-print("Type message:\n")
+print("Type message:")
 try:
     while True:
         msg = input()
         client.send(msg.encode())
 
-        if msg == "STOP":
+        if msg == "EXIT":
             print("Client closed")
             break
 except KeyboardInterrupt:
     print("Client closed")
 finally:
+    stop = True
     client.close()
