@@ -3,3 +3,5 @@ old/
 zad*/
 example/
 __pycache__/
+*.zip
+*.html
