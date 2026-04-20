@@ -1,0 +1,57 @@
+syntax = "proto3";
+package laboratory;
+
+import "google/protobuf/empty.proto";
+import "laboratory/common.proto";
+
+option java_package = "org.mpus.laboratory";
+option java_multiple_files = true;
+
+
+enum FanMode {
+    AUTO = 0;
+    ECO = 1;
+    FAST = 2;
+}
+
+message BasicACData {}
+message AdvancedACData {
+    FanMode fan_mode = 1;
+    int32 current_humidity = 2;
+    int32 target_humidity = 3;
+}
+
+message ACStatus {
+    DeviceID id = 1;
+    bool is_on = 2;
+    int32 current_temp = 3;
+    int32 target_temp = 4;
+    oneof type_detalis {
+        BasicACData basic = 5;
+        AdvancedACData advanced = 6;
+    }
+}
+
+message SetACTempRequest {
+    DeviceID id = 1;
+    int32 target_temp = 2;
+}
+
+message SetACFanRequest {
+    DeviceID id = 1;
+    FanMode fan_mode = 2;
+}
+
+message SetACHumidityRequest {
+    DeviceID id = 1;
+    FanMode target_humidity = 2;
+}
+
+service ACService {
+    rpc GetACStatus(DeviceID) returns (ACStatus);
+    rpc EnableAC(DeviceID) returns (google.protobuf.Empty);
+    rpc DisableAC(DeviceID) returns (google.protobuf.Empty);
+    rpc SetACTemp(SetACTempRequest) returns (google.protobuf.Empty);
+    rpc SetACFan(SetACFanRequest) returns (google.protobuf.Empty);
+    rpc SetACHumidity(SetACHumidityRequest) returns (google.protobuf.Empty);
+}

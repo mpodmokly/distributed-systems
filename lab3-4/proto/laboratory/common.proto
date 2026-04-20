@@ -1,0 +1,13 @@
+syntax = "proto3";
+package laboratory;
+
+option java_package = "org.mpus.laboratory";
+option java_multiple_files = true;
+
+message DeviceID {
+    string id = 1;
+}
+
+message DevicesList {
+    repeated DeviceID devices = 1;
+}

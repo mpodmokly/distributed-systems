@@ -1,0 +1,57 @@
+syntax = "proto3";
+package laboratory;
+
+import "google/protobuf/empty.proto";
+import "laboratory/common.proto";
+
+option java_package = "org.mpus.laboratory";
+option java_multiple_files = true;
+
+
+enum LightMode {
+    NO_LIGHT = 0;
+    LOW = 1;
+    HIGH = 2;
+    EXTREME = 3;
+}
+
+message WaterIrrigationData {
+    int32 water_flow = 1;
+}
+message FertilizerIrrigationData {
+    int32 fertilizer_ratio = 1;
+}
+
+message IrrigationStatus {
+    DeviceID id = 1;
+    bool is_on = 2;
+    LightMode light = 3;
+    oneof type_detalis {
+        WaterIrrigationData water_type = 4;
+        FertilizerIrrigationData fertilizer_type = 5;
+    }
+}
+
+message SetLightModeRequest {
+    DeviceID id = 1;
+    LightMode light = 2;
+}
+
+message SetWaterFlowRequest {
+    DeviceID id = 1;
+    int32 water_flow = 2;
+}
+
+message SetFertilizerRatioRequest {
+    DeviceID id = 1;
+    int32 fertilizer_ratio = 2;
+}
+
+service IrrigationService {
+    rpc GetIrrigationStatus(DeviceID) returns (IrrigationStatus);
+    rpc EnableIrrigation(DeviceID) returns (google.protobuf.Empty);
+    rpc DisableIrrigation(DeviceID) returns (google.protobuf.Empty);
+    rpc SetLightMode(SetLightModeRequest) returns (google.protobuf.Empty);
+    rpc SetWaterFlow(SetWaterFlowRequest) returns (google.protobuf.Empty);
+    rpc SetFertilizerRatio(SetFertilizerRatioRequest) returns (google.protobuf.Empty);
+}

@@ -1,0 +1,41 @@
+syntax = "proto3";
+package laboratory;
+
+import "google/protobuf/empty.proto";
+import "laboratory/common.proto";
+
+option java_package = "org.mpus.laboratory";
+option java_multiple_files = true;
+
+
+message CameraStatus {
+    DeviceID id = 1;
+    bool is_on = 2;
+    int32 pan = 3;
+    int32 tilt = 4;
+    int32 zoom = 5;
+}
+
+message SetCameraPanRequest {
+    DeviceID id = 1;
+    int32 pan = 2;
+}
+
+message SetCameraTiltRequest {
+    DeviceID id = 1;
+    int32 tilt = 2;
+}
+
+message SetCameraZoomRequest {
+    DeviceID id = 1;
+    int32 zoom = 2;
+}
+
+service CameraService {
+    rpc GetCameraStatus(DeviceID) returns (CameraStatus);
+    rpc EnableCamera(DeviceID) returns (google.protobuf.Empty);
+    rpc DisableCamera(DeviceID) returns (google.protobuf.Empty);
+    rpc SetCameraPan(SetCameraPanRequest) returns (google.protobuf.Empty);
+    rpc SetCameraTilt(SetCameraTiltRequest) returns (google.protobuf.Empty);
+    rpc SetCameraZoom(SetCameraZoomRequest) returns (google.protobuf.Empty);
+}
