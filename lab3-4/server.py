@@ -1,25 +1,39 @@
 import grpc
-from laboratory import camera_pb2, camera_pb2_grpc
+from concurrent import futures
+from laboratory import camera_pb2_grpc, irrigation_pb2_grpc
+from camera_service import CameraService
+from irrigation_service import IrrigationService
+import json
+import sys
 
 
-devices = {
-    "cam1": {
-        "is_on": False,
-        "pan": 270,
-        "tilt": 90,
-        "zoom": 3
-    }
-}
+def serve(config_path, port):
+    with open(config_path, "r", encoding="utf-8") as f:
+        config = json.load(f)
 
-class CameraService(camera_pb2_grpc.CameraServiceServicer):
-    def GetCameraStatus(self, request, context):
-        device_id = request.id
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
+    camera_pb2_grpc.add_CameraServiceServicer_to_server(
+        CameraService(config["devices"]),
+        server
+    )
+    irrigation_pb2_grpc.add_IrrigationServiceServicer_to_server(
+        IrrigationService(config["devices"]),
+        server
+    )
 
-        if not device_id in devices:
-            context.abort(grpc.StatusCode.NOT_FOUND, "Device not found")
-        
-        device = devices[device_id]
-        return camera_pb2.CameraStatus
+    server.add_insecure_port(f"[::]:{port}")
+    server.start()
+    print(f"{config["name"]}")
+    print("Server working...")
 
+    try:
+        server.wait_for_termination()
+    except KeyboardInterrupt:
+        print("Server stopped")
+        server.stop(0)
 
-print(dir(camera_pb2))
+if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        print("Invalid arguments")
+    else:
+        serve(sys.argv[1], sys.argv[2])

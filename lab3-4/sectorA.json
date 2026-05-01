@@ -1,0 +1,12 @@
+{
+    "name": "Sector A - Technological Sector",
+    "devices": {
+        "cam1": {
+            "type": "CAMERA",
+            "is_on": false,
+            "pan": 0,
+            "tilt": 0,
+            "zoom": 1
+        }
+    }
+}

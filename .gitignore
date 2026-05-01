@@ -1,8 +1,15 @@
 *.pdf
-old/
+*.zip
+
 zad*/
+old/
+
 example/
 __pycache__/
-*.zip
 Egzamin/
 lab3-4/laboratory/
+.VSCodeCounter/
+
+.gradle/
+.idea/
+build/

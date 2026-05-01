@@ -1,6 +1,8 @@
 syntax = "proto3";
 package laboratory;
 
+import "google/protobuf/empty.proto";
+
 option java_package = "org.mpus.laboratory";
 option java_multiple_files = true;
 
@@ -10,4 +12,8 @@ message DeviceID {
 
 message DevicesList {
     repeated DeviceID devices = 1;
+}
+
+service DeviceRegistryService {
+    rpc ListDevices(google.protobuf.Empty) returns (DevicesList);
 }

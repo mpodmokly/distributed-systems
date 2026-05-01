@@ -1,0 +1,20 @@
+{
+    "name": "Sector B - Botanical Sector",
+    "devices": {
+        "irr1": {
+            "type": "IRRIGATION",
+            "is_on": false,
+            "light": "NO_LIGHT",
+            "water_type": {
+                "water_flow": 0
+            }
+        },
+        "cam2": {
+            "type": "CAMERA",
+            "is_on": false,
+            "pan": 0,
+            "tilt": 0,
+            "zoom": 1
+        }
+    }
+}
