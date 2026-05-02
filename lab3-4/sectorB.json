@@ -1,6 +1,13 @@
 {
     "name": "Sector B - Botanical Sector",
     "devices": {
+        "cam2": {
+            "type": "CAMERA",
+            "is_on": false,
+            "pan": 0,
+            "tilt": 0,
+            "zoom": 1
+        },
         "irr1": {
             "type": "IRRIGATION",
             "is_on": false,
@@ -9,12 +16,13 @@
                 "water_flow": 0
             }
         },
-        "cam2": {
-            "type": "CAMERA",
+        "irr2": {
+            "type": "IRRIGATION",
             "is_on": false,
-            "pan": 0,
-            "tilt": 0,
-            "zoom": 1
+            "light": "NO_LIGHT",
+            "fertilizer_type": {
+                "fertilizer_ratio": 0
+            }
         }
     }
 }

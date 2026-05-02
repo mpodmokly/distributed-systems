@@ -6,7 +6,7 @@ from google.protobuf import empty_pb2
 class CameraService(camera_pb2_grpc.CameraServiceServicer):
     def __init__(self, database):
         self.db = database
-        self.CAMERA = "CAMERA"
+        self.TYPE = "CAMERA"
 
     def GetCameraStatus(self, request, context):
         device_id = request.id
@@ -15,7 +15,7 @@ class CameraService(camera_pb2_grpc.CameraServiceServicer):
         
         device = self.db[device_id]
 
-        if not device["type"] == self.CAMERA:
+        if not device["type"] == self.TYPE:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not camera"
@@ -37,7 +37,7 @@ class CameraService(camera_pb2_grpc.CameraServiceServicer):
         
         device = self.db[device_id]
 
-        if not device["type"] == self.CAMERA:
+        if not device["type"] == self.TYPE:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not camera"
@@ -54,7 +54,7 @@ class CameraService(camera_pb2_grpc.CameraServiceServicer):
         
         device = self.db[device_id]
 
-        if not device["type"] == self.CAMERA:
+        if not device["type"] == self.TYPE:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not camera"
@@ -71,7 +71,7 @@ class CameraService(camera_pb2_grpc.CameraServiceServicer):
         
         device = self.db[device_id]
 
-        if not device["type"] == self.CAMERA:
+        if not device["type"] == self.TYPE:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not camera"
@@ -94,7 +94,7 @@ class CameraService(camera_pb2_grpc.CameraServiceServicer):
         
         device = self.db[device_id]
 
-        if not device["type"] == self.CAMERA:
+        if not device["type"] == self.TYPE:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not camera"
@@ -117,7 +117,7 @@ class CameraService(camera_pb2_grpc.CameraServiceServicer):
         
         device = self.db[device_id]
 
-        if not device["type"] == self.CAMERA:
+        if not device["type"] == self.TYPE:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not camera"

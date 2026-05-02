@@ -6,7 +6,7 @@ from google.protobuf import empty_pb2
 class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
     def __init__(self, database):
         self.db = database
-        self.IRRIGATION = "IRRIGATION"
+        self.TYPE = "IRRIGATION"
     
     def GetIrrigationStatus(self, request, context):
         device_id = request.id
@@ -15,12 +15,13 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
         
         device = self.db[device_id]
 
-        if not device["type"] == self.IRRIGATION:
+        if not device["type"] == self.TYPE:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not irrigation"
             )
 
+        print("Status sent")
         if "water_type" in device:
             return irrigation_pb2.IrrigationStatus(
                 id=request,
@@ -31,7 +32,6 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
                 )
             )
         
-        print("Status sent")
         return irrigation_pb2.IrrigationStatus(
             id=request,
             is_on=device["is_on"],
@@ -48,7 +48,7 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
         
         device = self.db[device_id]
 
-        if not device["type"] == self.IRRIGATION:
+        if not device["type"] == self.TYPE:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not irrigation"
@@ -65,7 +65,7 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
         
         device = self.db[device_id]
         
-        if not device["type"] == self.IRRIGATION:
+        if not device["type"] == self.TYPE:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not irrigation"
@@ -82,7 +82,7 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
         
         device = self.db[device_id]
         
-        if not device["type"] == self.IRRIGATION:
+        if not device["type"] == self.TYPE:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not irrigation"
@@ -107,7 +107,7 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
         
         device = self.db[device_id]
         
-        if not device["type"] == self.IRRIGATION:
+        if not device["type"] == self.TYPE:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not irrigation"
@@ -142,7 +142,7 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
         
         device = self.db[device_id]
         
-        if not device["type"] == self.IRRIGATION:
+        if not device["type"] == self.TYPE:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not irrigation"

@@ -74,7 +74,7 @@ public class DeviceRouter {
                     System.out.println("Device not found");
                 }
             }
-            default ->
+            default -> System.out.println("Unknown type");
         }
     }
 
@@ -98,6 +98,7 @@ public class DeviceRouter {
                     System.out.println("Device not found");
                 }
             }
+            default -> System.out.println("Unknown type");
         }
     }
 
@@ -121,6 +122,7 @@ public class DeviceRouter {
                     System.out.println("Device not found");
                 }
             }
+            default -> System.out.println("Unknown type");
         }
     }
 

@@ -7,6 +7,24 @@
             "pan": 0,
             "tilt": 0,
             "zoom": 1
+        },
+        "ac1": {
+            "type": "AC",
+            "is_on": false,
+            "current_temp": 0,
+            "target_temp": 0,
+            "basic": {}
+        },
+        "ac2": {
+            "type": "AC",
+            "is_on": false,
+            "current_temp": 0,
+            "target_temp": 0,
+            "advanced": {
+                "fan_mode": "AUTO",
+                "current_humidity": 0,
+                "target_humidity": 0
+            }
         }
     }
 }
