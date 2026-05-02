@@ -1,8 +1,9 @@
 import grpc
 from concurrent import futures
-from laboratory import camera_pb2_grpc, irrigation_pb2_grpc
+from laboratory import camera_pb2_grpc, irrigation_pb2_grpc, common_pb2_grpc
 from camera_service import CameraService
 from irrigation_service import IrrigationService
+from device_registry_service import DeviceRegistryService
 import json
 import sys
 
@@ -18,6 +19,10 @@ def serve(config_path, port):
     )
     irrigation_pb2_grpc.add_IrrigationServiceServicer_to_server(
         IrrigationService(config["devices"]),
+        server
+    )
+    common_pb2_grpc.add_DeviceRegistryServiceServicer_to_server(
+        DeviceRegistryService(config["devices"]),
         server
     )
 

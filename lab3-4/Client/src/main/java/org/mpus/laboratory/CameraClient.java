@@ -119,8 +119,4 @@ public class CameraClient {
             System.out.println(e.getStatus().getDescription());
         }
     }
-
-//    public void shutdown() {
-//        channel.shutdown();
-//    }
 }

@@ -11,6 +11,8 @@ public class LaboratoryClient {
         System.out.println("Commands:");
 
         System.out.println("--- Common ---");
+        System.out.println("stop");
+        System.out.println("list");
         System.out.println("status <type> <id>");
         System.out.println("enable <type> <id>");
         System.out.println("disable <type> <id>");
@@ -29,9 +31,13 @@ public class LaboratoryClient {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            String input = scanner.nextLine().trim();
-            if (input.equalsIgnoreCase("stop")) {
+            String input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("stop")) {
                 break;
+            }
+            if (input.equals("list")) {
+                deviceRouter.listDevices();
+                continue;
             }
 
             List<String> command = new ArrayList<>(Arrays.asList(input.split("\\s+")));
@@ -42,11 +48,14 @@ public class LaboratoryClient {
 
             switch (command.get(0)) {
                 case "status" -> deviceRouter.getStatus(command.get(1), command.get(2));
-//                case "enable" -> cameraClient.enableCamera(command.get(1));
-//                case "disable" -> cameraClient.disableCamera(command.get(1));
-//                case "set-pan" -> cameraClient.setPan(command.get(1), command.get(2));
-//                case "set-tilt" -> cameraClient.setTilt(command.get(1), command.get(2));
-//                case "set-zoom" -> cameraClient.setZoom(command.get(1), command.get(2));
+                case "enable" -> deviceRouter.enable(command.get(1), command.get(2));
+                case "disable" -> deviceRouter.disable(command.get(1), command.get(2));
+                case "set-pan" -> deviceRouter.setPan(command.get(1), command.get(2));
+                case "set-tilt" -> deviceRouter.setTilt(command.get(1), command.get(2));
+                case "set-zoom" -> deviceRouter.setZoom(command.get(1), command.get(2));
+                case "set-light" -> deviceRouter.setLight(command.get(1), command.get(2));
+                case "set-water" -> deviceRouter.setWater(command.get(1), command.get(2));
+                case "set-fertilizer" -> deviceRouter.setFertilizer(command.get(1), command.get(2));
                 default -> System.out.println("Invalid command");
             }
         }

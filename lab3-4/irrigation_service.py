@@ -31,6 +31,7 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
                 )
             )
         
+        print("Status sent")
         return irrigation_pb2.IrrigationStatus(
             id=request,
             is_on=device["is_on"],
@@ -54,6 +55,7 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
             )
         
         device["is_on"] = True
+        print("Irrigation enabled")
         return empty_pb2.Empty()
     
     def DisableIrrigation(self, request, context):
@@ -70,6 +72,7 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
             )
         
         device["is_on"] = False
+        print("Irrigation disabled")
         return empty_pb2.Empty()
     
     def SetLightMode(self, request, context):
@@ -94,6 +97,7 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
         device["light"] = irrigation_pb2.LightMode.Name(
             request.light
         )
+        print("Light set")
         return empty_pb2.Empty()
     
     def SetWaterFlow(self, request, context):
@@ -128,6 +132,7 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
             )
 
         device["water_type"]["water_flow"] = request.water_flow
+        print("Water flow set")
         return empty_pb2.Empty()
     
     def SetFertilizerRatio(self, request, context):
@@ -162,4 +167,5 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
             )
         
         device["fertilizer_type"]["fertilizer_ratio"] = request.fertilizer_ratio
+        print("Fertilizer ratio set")
         return empty_pb2.Empty()
