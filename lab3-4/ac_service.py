@@ -75,3 +75,85 @@ class ACService(air_conditioner_pb2_grpc.ACServiceServicer):
         print("AC disabled")
         return empty_pb2.Empty()
     
+    def SetACTemp(self, request, context):
+        device_id = request.id.id
+        if not device_id in self.db:
+            context.abort(grpc.StatusCode.NOT_FOUND, "Device not found")
+        
+        device = self.db[device_id]
+
+        if not device["type"] == self.TYPE:
+            context.abort(
+                grpc.StatusCode.FAILED_PRECONDITION,
+                "Device is not AC"
+            )
+        if not device["is_on"]:
+            context.abort(
+                grpc.StatusCode.FAILED_PRECONDITION,
+                "AC must be enabled to set temp"
+            )
+        if request.target_temp < 5 or request.target_temp > 25:
+            context.abort(grpc.StatusCode.OUT_OF_RANGE, "Temp out of range")
+        
+        device["target_temp"] = request.target_temp
+        print("Target temp set")
+        return empty_pb2.Empty()
+    
+    def SetACFan(self, request, context):
+        device_id = request.id.id
+        if not device_id in self.db:
+            context.abort(grpc.StatusCode.NOT_FOUND, "Device not found")
+        
+        device = self.db[device_id]
+        if not device["type"] == self.TYPE:
+            context.abort(
+                grpc.StatusCode.FAILED_PRECONDITION,
+                "Device is not AC"
+            )
+        if not device["is_on"]:
+            context.abort(
+                grpc.StatusCode.FAILED_PRECONDITION,
+                "AC must be enabled to set fan mode"
+            )
+        if not "advanced" in device:
+            context.abort(
+                grpc.StatusCode.FAILED_PRECONDITION,
+                "Device is not advanced type"
+            )
+        
+        device["advanced"]["fan_mode"] = air_conditioner_pb2.FanMode.Name(
+            request.fan_mode
+        )
+        print("Fan mode set")
+        return empty_pb2.Empty()
+    
+    def SetACHumidity(self, request, context):
+        device_id = request.id.id
+        if not device_id in self.db:
+            context.abort(grpc.StatusCode.NOT_FOUND, "Device not found")
+        
+        device = self.db[device_id]
+        if not device["type"] == self.TYPE:
+            context.abort(
+                grpc.StatusCode.FAILED_PRECONDITION,
+                "Device is not AC"
+            )
+        if not device["is_on"]:
+            context.abort(
+                grpc.StatusCode.FAILED_PRECONDITION,
+                "AC must be enabled to set humidity"
+            )
+        if not "advanced" in device:
+            context.abort(
+                grpc.StatusCode.FAILED_PRECONDITION,
+                "Device is not advanced type"
+            )
+        if request.target_humidity < 0 or request.target_humidity > 100:
+            context.abort(
+                grpc.StatusCode.OUT_OF_RANGE,
+                "Humidity out of range"
+            )
+        
+        device["advanced"]["target_humidity"] = request.target_humidity
+        print("Target humidity set")
+        return empty_pb2.Empty()

@@ -87,16 +87,13 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not irrigation"
             )
-        
         if not device["is_on"]:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Irrigation must be enabled to set light mode"
             )
 
-        device["light"] = irrigation_pb2.LightMode.Name(
-            request.light
-        )
+        device["light"] = irrigation_pb2.LightMode.Name(request.light)
         print("Light set")
         return empty_pb2.Empty()
     
@@ -112,19 +109,16 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not irrigation"
             )
-        
         if not device["is_on"]:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Irrigation must be enabled to set water flow"
             )
-        
         if not "water_type" in device:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not water irrigation type"
             )
-        
         if request.water_flow < 0 or request.water_flow > 1000:
             context.abort(
                 grpc.StatusCode.OUT_OF_RANGE,
@@ -147,23 +141,20 @@ class IrrigationService(irrigation_pb2_grpc.IrrigationServiceServicer):
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not irrigation"
             )
-        
         if not device["is_on"]:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Irrigation must be enabled to set fertilizer ratio"
             )
-        
         if not "fertilizer_type" in device:
             context.abort(
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not fertilizer irrigation type"
             )
-        
         if request.fertilizer_ratio < 0 or request.fertilizer_ratio > 100:
             context.abort(
                 grpc.StatusCode.OUT_OF_RANGE,
-                "Fertilizer ratio flow out of range"
+                "Fertilizer ratio out of range"
             )
         
         device["fertilizer_type"]["fertilizer_ratio"] = request.fertilizer_ratio

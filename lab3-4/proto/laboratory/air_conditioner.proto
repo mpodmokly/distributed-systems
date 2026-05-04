@@ -44,7 +44,7 @@ message SetACFanRequest {
 
 message SetACHumidityRequest {
     DeviceID id = 1;
-    FanMode target_humidity = 2;
+    int32 target_humidity = 2;
 }
 
 service ACService {

@@ -27,6 +27,11 @@ public class LaboratoryClient {
         System.out.println("set-water <id> <value>");
         System.out.println("set-fertilizer <id> <value>");
 
+        System.out.println("--- AC ---");
+        System.out.println("set-temp <id> <value>");
+        System.out.println("set-fan <id> <value>");
+        System.out.println("set-humidity <id> <value>");
+
         DeviceRouter deviceRouter = new DeviceRouter();
         Scanner scanner = new Scanner(System.in);
 
@@ -56,6 +61,9 @@ public class LaboratoryClient {
                 case "set-light" -> deviceRouter.setLight(command.get(1), command.get(2));
                 case "set-water" -> deviceRouter.setWater(command.get(1), command.get(2));
                 case "set-fertilizer" -> deviceRouter.setFertilizer(command.get(1), command.get(2));
+                case "set-temp" -> deviceRouter.setTemp(command.get(1), command.get(2));
+                case "set-fan" -> deviceRouter.setFan(command.get(1), command.get(2));
+                case "set-humidity" -> deviceRouter.setHumidity(command.get(1), command.get(2));
                 default -> System.out.println("Invalid command");
             }
         }

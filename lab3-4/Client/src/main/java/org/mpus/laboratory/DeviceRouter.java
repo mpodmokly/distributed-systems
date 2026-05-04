@@ -15,6 +15,7 @@ public class DeviceRouter {
 
     private final Map<String, CameraClient> cameraClients = new HashMap<>();
     private final Map<String, IrrigationClient> irrigationClients = new HashMap<>();
+    private final Map<String, ACClient> ACClients = new HashMap<>();
 
     public DeviceRouter() {
         initServers();
@@ -38,10 +39,12 @@ public class DeviceRouter {
 
             CameraClient cameraClient = new CameraClient(channel);
             IrrigationClient irrigationClient = new IrrigationClient(channel);
+            ACClient acClient = new ACClient(channel);
 
             for (String id : ids) {
                 cameraClients.put(id, cameraClient);
                 irrigationClients.put(id, irrigationClient);
+                ACClients.put(id, acClient);
             }
         }
     }
@@ -74,6 +77,15 @@ public class DeviceRouter {
                     System.out.println("Device not found");
                 }
             }
+            case "ac" -> {
+                ACClient acClient = ACClients.get(id);
+                if (acClient != null) {
+                    acClient.getACStatus(id);
+                }
+                else {
+                    System.out.println("Device not found");
+                }
+            }
             default -> System.out.println("Unknown type");
         }
     }
@@ -98,6 +110,15 @@ public class DeviceRouter {
                     System.out.println("Device not found");
                 }
             }
+            case "ac" -> {
+                ACClient acClient = ACClients.get(id);
+                if (acClient != null) {
+                    acClient.enableAC(id);
+                }
+                else {
+                    System.out.println("Device not found");
+                }
+            }
             default -> System.out.println("Unknown type");
         }
     }
@@ -117,6 +138,15 @@ public class DeviceRouter {
                 IrrigationClient irrigationClient = irrigationClients.get(id);
                 if (irrigationClient != null) {
                     irrigationClient.disableIrrigation(id);
+                }
+                else {
+                    System.out.println("Device not found");
+                }
+            }
+            case "ac" -> {
+                ACClient acClient = ACClients.get(id);
+                if (acClient != null) {
+                    acClient.disableAC(id);
                 }
                 else {
                     System.out.println("Device not found");
@@ -180,6 +210,36 @@ public class DeviceRouter {
         IrrigationClient irrigationClient = irrigationClients.get(id);
         if (irrigationClient != null) {
             irrigationClient.setFertilizer(id, value);
+        }
+        else {
+            System.out.println("Device not found");
+        }
+    }
+
+    public void setTemp(String id, String value) {
+        ACClient acClient = ACClients.get(id);
+        if (acClient != null) {
+            acClient.setTemp(id, value);
+        }
+        else {
+            System.out.println("Device not found");
+        }
+    }
+
+    public void setFan(String id, String value) {
+        ACClient acClient = ACClients.get(id);
+        if (acClient != null) {
+            acClient.setFan(id, value);
+        }
+        else {
+            System.out.println("Device not found");
+        }
+    }
+
+    public void setHumidity(String id, String value) {
+        ACClient acClient = ACClients.get(id);
+        if (acClient != null) {
+            acClient.setHumidity(id, value);
         }
         else {
             System.out.println("Device not found");

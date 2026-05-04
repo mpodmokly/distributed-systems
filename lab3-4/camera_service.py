@@ -76,10 +76,11 @@ class CameraService(camera_pb2_grpc.CameraServiceServicer):
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not camera"
             )
-
         if not device["is_on"]:
-            context.abort(grpc.StatusCode.FAILED_PRECONDITION, "Camera must be enabled to set pan")
-        
+            context.abort(
+                grpc.StatusCode.FAILED_PRECONDITION,
+                "Camera must be enabled to set pan"
+            )
         if request.pan < 0 or request.pan > 359:
             context.abort(grpc.StatusCode.OUT_OF_RANGE, "Pan out of range")
 
@@ -99,10 +100,11 @@ class CameraService(camera_pb2_grpc.CameraServiceServicer):
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not camera"
             )
-        
         if not device["is_on"]:
-            context.abort(grpc.StatusCode.FAILED_PRECONDITION, "Camera must be enabled to set tilt")
-        
+            context.abort(
+                grpc.StatusCode.FAILED_PRECONDITION,
+                "Camera must be enabled to set tilt"
+            )
         if request.tilt < 0 or request.tilt > 180:
             context.abort(grpc.StatusCode.OUT_OF_RANGE, "Tilt out of range")
         
@@ -122,10 +124,11 @@ class CameraService(camera_pb2_grpc.CameraServiceServicer):
                 grpc.StatusCode.FAILED_PRECONDITION,
                 "Device is not camera"
             )
-        
         if not device["is_on"]:
-            context.abort(grpc.StatusCode.FAILED_PRECONDITION, "Camera must be enabled to set zoom")
-        
+            context.abort(
+                grpc.StatusCode.FAILED_PRECONDITION,
+                "Camera must be enabled to set zoom"
+            )
         if request.zoom < 1 or request.zoom > 20:
             context.abort(grpc.StatusCode.OUT_OF_RANGE, "Zoom out of range")
         

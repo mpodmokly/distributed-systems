@@ -12,24 +12,26 @@ public class IrrigationClient {
 
     public void getIrrigationStatus(String id) {
         DeviceID request = DeviceID.newBuilder().setId(id).build();
+        try {
+            IrrigationStatus response = stub.getIrrigationStatus(request);
+            System.out.println("Irrigation status:");
+            System.out.println("ID: " + response.getId().getId());
+            System.out.println("Power: " + response.getIsOn());
+            System.out.println("Light: " + response.getLight());
 
-
-        IrrigationStatus response = stub.getIrrigationStatus(request);
-        System.out.println("Irrigation status:");
-        System.out.println("ID: " + response.getId().getId());
-        System.out.println("Power: " + response.getIsOn());
-        System.out.println("Light: " + response.getLight());
-
-        switch (response.getTypeDetalisCase()) {
-            case WATER_TYPE -> {
-                int flow = response.getWaterType().getWaterFlow();
-                System.out.println("Water flow: " + flow);
+            switch (response.getTypeDetalisCase()) {
+                case WATER_TYPE -> {
+                    int flow = response.getWaterType().getWaterFlow();
+                    System.out.println("Water flow: " + flow);
+                }
+                case FERTILIZER_TYPE -> {
+                    int fertilizer = response.getFertilizerType().getFertilizerRatio();
+                    System.out.println("Fertilizer ratio: " + fertilizer);
+                }
+                case TYPEDETALIS_NOT_SET -> System.out.println("No irrigation type set");
             }
-            case FERTILIZER_TYPE -> {
-                int fertilizer = response.getFertilizerType().getFertilizerRatio();
-                System.out.println("Fertilizer ratio: " + fertilizer);
-            }
-            case TYPEDETALIS_NOT_SET -> System.out.println("No irrigation type set");
+        } catch (StatusRuntimeException e) {
+            System.out.println(e.getStatus().getDescription());
         }
     }
 
@@ -82,7 +84,7 @@ public class IrrigationClient {
             return;
         }
 
-        if  (waterVal < 0 || waterVal > 1000) {
+        if (waterVal < 0 || waterVal > 1000) {
             System.out.println("Water value must be between 0-1000");
             return;
         }
