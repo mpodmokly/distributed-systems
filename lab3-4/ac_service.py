@@ -27,7 +27,8 @@ class ACService(air_conditioner_pb2_grpc.ACServiceServicer):
                 id=request,
                 is_on=device["is_on"],
                 current_temp=device["current_temp"],
-                target_temp=device["target_temp"]
+                target_temp=device["target_temp"],
+                basic=air_conditioner_pb2.BasicACData()
             )
         
         return air_conditioner_pb2.ACStatus(

@@ -21,6 +21,7 @@ public class ACClient {
             System.out.println("Target temp: " + response.getTargetTemp());
 
             switch (response.getTypeDetalisCase()) {
+                case BASIC -> {}
                 case ADVANCED -> {
                     FanMode fan = response.getAdvanced().getFanMode();
                     int current_humidity = response.getAdvanced().getCurrentHumidity();
@@ -29,7 +30,7 @@ public class ACClient {
                     System.out.println("Current humidity: " + current_humidity);
                     System.out.println("Target humidity: " + target_humidity);
                 }
-                case TYPEDETALIS_NOT_SET -> System.out.println("No irrigation type set");
+                case TYPEDETALIS_NOT_SET -> System.out.println("No AC type set");
             }
         } catch (StatusRuntimeException e) {
             System.out.println(e.getStatus().getDescription());

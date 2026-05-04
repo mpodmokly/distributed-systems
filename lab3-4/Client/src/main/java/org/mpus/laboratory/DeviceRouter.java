@@ -59,7 +59,7 @@ public class DeviceRouter {
 
     public void getStatus(String type, String id) {
         switch (type) {
-            case "camera" -> {
+            case "cam" -> {
                 CameraClient cameraClient = cameraClients.get(id);
                 if (cameraClient != null) {
                     cameraClient.getCameraStatus(id);
@@ -68,7 +68,7 @@ public class DeviceRouter {
                     System.out.println("Device not found");
                 }
             }
-            case "irrigation" -> {
+            case "irr" -> {
                 IrrigationClient irrigationClient = irrigationClients.get(id);
                 if (irrigationClient != null) {
                     irrigationClient.getIrrigationStatus(id);
@@ -92,7 +92,7 @@ public class DeviceRouter {
 
     public void enable(String type, String id) {
         switch (type) {
-            case "camera" -> {
+            case "cam" -> {
                 CameraClient cameraClient = cameraClients.get(id);
                 if (cameraClient != null) {
                     cameraClient.enableCamera(id);
@@ -101,7 +101,7 @@ public class DeviceRouter {
                     System.out.println("Device not found");
                 }
             }
-            case "irrigation" -> {
+            case "irr" -> {
                 IrrigationClient irrigationClient = irrigationClients.get(id);
                 if (irrigationClient != null) {
                     irrigationClient.enableIrrigation(id);
@@ -125,7 +125,7 @@ public class DeviceRouter {
 
     public void disable(String type, String id) {
         switch (type) {
-            case "camera" -> {
+            case "cam" -> {
                 CameraClient cameraClient = cameraClients.get(id);
                 if (cameraClient != null) {
                     cameraClient.disableCamera(id);
@@ -134,7 +134,7 @@ public class DeviceRouter {
                     System.out.println("Device not found");
                 }
             }
-            case "irrigation" -> {
+            case "irr" -> {
                 IrrigationClient irrigationClient = irrigationClients.get(id);
                 if (irrigationClient != null) {
                     irrigationClient.disableIrrigation(id);
