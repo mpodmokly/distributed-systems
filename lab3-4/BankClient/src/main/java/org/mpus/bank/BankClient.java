@@ -17,33 +17,44 @@ public class BankClient {
         Router router = new Router(args);
         Scanner scanner = new Scanner(System.in);
 
-        try {
-            while(true) {
-                String input = scanner.nextLine().trim().toLowerCase();
-                if (input.equals("stop")) {
+        while(true) {
+            String input = scanner.nextLine().trim();
+            List<String> command = new ArrayList<>(Arrays.asList(input.split("\\s+")));
+
+            if (command.size() == 1) {
+                if (input.equalsIgnoreCase("stop")) {
                     break;
                 }
-                if (input.equals("list")) {
+                if (input.equalsIgnoreCase("list")) {
                     router.list();
-                }
-
-                List<String> command = new ArrayList<>(Arrays.asList(input.split("\\s+")));
-                if (command.size() == 2) {
-                    switch (command.get(0)) {
-                        case "get" -> router
-                    }
-                }
-                else if (command.size() == 3) {
-
-                }
-                else {
-                    System.out.println("Invalid number of arguments");
+                    continue;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            router.shutdown();
+            if (command.size() == 2) {
+                switch (command.get(0).toLowerCase()) {
+                    case "get" -> router.getBalance(command.get(1));
+                    case "add", "delete" -> router.manageAccount(
+                        command.get(0).toLowerCase(),
+                        command.get(1)
+                    );
+                    default -> System.out.println("Invalid command");
+                }
+            }
+            else if (command.size() == 3) {
+                switch (command.get(0).toLowerCase()) {
+                    case "deposit", "withdraw" -> router.manageMoney(
+                        command.get(0).toLowerCase(),
+                        command.get(1),
+                        command.get(2)
+                    );
+                    default -> System.out.println("Invalid command");
+                }
+            }
+            else {
+                System.out.println("Invalid number of arguments");
+            }
         }
+
+        router.shutdown();
     }
 }

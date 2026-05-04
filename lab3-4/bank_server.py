@@ -16,7 +16,7 @@ class BankServiceI(Bank.BankService):
                 raise Bank.AccountAlreadyExists(owner)
         
         self.accounts.append(Bank.Account(owner, 0))
-        print(f"Account {owner} added")
+        print(f"Account {owner} created")
     
     def deleteAccount(self, owner, current=None):
         for i in range(len(self.accounts)):
@@ -29,7 +29,7 @@ class BankServiceI(Bank.BankService):
         raise Bank.AccountNotFound(owner)
 
     def deposit(self, owner, amount, current=None):
-        if amount < 0:
+        if amount <= 0:
             raise Bank.InvalidAmount(amount)
 
         for acc in self.accounts:
@@ -42,17 +42,17 @@ class BankServiceI(Bank.BankService):
         raise Bank.AccountNotFound(owner)
     
     def withdraw(self, owner, amount, current=None):
-        if amount < 0:
+        if amount <= 0:
             raise Bank.InvalidAmount(amount)
         
         for acc in self.accounts:
             if acc.owner == owner:
                 if acc.balance >= amount:
                     acc.balance -= amount
-                    print(f"Amount {amount} withdrew from {owner}")
+                    print(f"Amount {amount / 100} withdrawn from {owner}")
                     return
                 
-                print(f"Account {owner} does not have amount of {amount}")
+                print(f"Account {owner} does not have amount of {amount / 100}")
                 raise Bank.InsufficientFunds(owner, amount, acc.balance)
         
         print(f"Account {owner} does not exist")
@@ -61,7 +61,7 @@ class BankServiceI(Bank.BankService):
     def getBalance(self, owner, current=None):
         for acc in self.accounts:
             if acc.owner == owner:
-                print(f"{owner} balance: {acc.balance}")
+                print(f"{owner} balance: {acc.balance / 100}")
                 return acc.balance
         
         print(f"Account {owner} does not exist")
