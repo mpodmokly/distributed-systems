@@ -5,7 +5,8 @@
 **Lab 3** - Middleware: gRPC<br>
 **Lab 4** - Middleware: ICE<br>
 **Lab 5** - RabbitMQ<br>
-**Lab 6** - Ray
+**Lab 6** - Ray<br>
+**Lab 7** - ZooKeeper
 
 ## RabbitMQ system architecture
 ![architecture](lab5/schemat.png)

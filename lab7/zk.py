@@ -16,7 +16,11 @@ def watch_children(children):
     root = tk.Tk()
     root.withdraw()
     root.attributes("-topmost", True)
-    messagebox.showinfo("Children", f"Number of children of node /a: {n}", parent=root)
+    messagebox.showinfo(
+        "Children",
+        f"Number of children of node {NODE}: {n}",
+        parent=root
+    )
     root.destroy()
 
 def watch_node(event):
@@ -43,6 +47,10 @@ def print_tree(path):
     indent = len(path) - len(node_name) - 1
     print(" " * indent + f"/{node_name}")
     children = zk.get_children(path)
+
+    if not children:
+        return
+
     for child in children:
         print_tree(f"{path}/{child}")
 
@@ -54,14 +62,14 @@ zk.exists(NODE, watch_node)
 try:
     while True:
         cmd = input("\nTo get tree type T:\n")
-        if cmd == "T":
+        if cmd.upper() == "T":
             print_tree(NODE)
-        elif cmd == "STOP":
-            print("Client stopped")
+        elif cmd.upper() == "S":
             break
         else:
             print("Wrong command")
 except KeyboardInterrupt:
-    print("Client stopped")
+    pass
 finally:
+    print("Client stopped")
     zk.stop()
